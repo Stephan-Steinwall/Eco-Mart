@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/bottomNavigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:elevation="4dp">
+            <TextView
+                android:id="@+id/tvTrackingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tracking Order #..."
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333"/>
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/trackingMapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="24dp"
+            android:elevation="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Status"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView android:id="@+id/stepPending" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. Order Received (Pending)" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
+            <TextView android:id="@+id/stepPreparing" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2. Preparing Your Order" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
+            <TextView android:id="@+id/stepOnTheWay" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3. Out for Delivery (On the way)" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
+            <TextView android:id="@+id/stepDelivered" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="4. Delivered" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="#4CAF50"
+        app:itemTextColor="#4CAF50"/>
+
+</RelativeLayout>
