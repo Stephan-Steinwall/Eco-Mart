@@ -81,6 +81,10 @@ export default function Dashboard() {
                     <button onClick={() => navigate('/analytics')} style={{ padding: '8px 16px', marginRight: '10px', backgroundColor: '#9370DB', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
                         View Analytics
                     </button>
+
+                    <button onClick={() => navigate('/users')} style={{ padding: '8px 16px', marginRight: '10px', backgroundColor: '#FF9800', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                        Manage Users
+                    </button>
                 </div>
             </div>
 
