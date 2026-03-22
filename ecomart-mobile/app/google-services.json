@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "223892050242",
+    "project_id": "eco-mart-183f6",
+    "storage_bucket": "eco-mart-183f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223892050242:android:7dc2f4cbda5431d247b8db",
+        "android_client_info": {
+          "package_name": "com.cybrixx.ecomart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEa68tlHQCHbDCbElxjOPSbxym9aEx08s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
