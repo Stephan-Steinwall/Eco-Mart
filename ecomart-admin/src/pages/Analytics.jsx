@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import api from '../api/axiosConfig';
+import AdminNavbar from '../components/AdminNavbar';
 
 export default function Analytics() {
     const navigate = useNavigate();
@@ -58,46 +59,37 @@ export default function Analytics() {
     if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px' }}>Loading Analytics...</h2>;
 
     return (
-        <div style={{ padding: '30px', fontFamily: 'sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
+        <div style={{ padding: '40px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif', backgroundColor: '#f4f7f6', minHeight: '100vh', color: '#1a1a1a' }}>
 
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>📊 Sales Analytics</h1>
-                <div>
-                    <button onClick={() => navigate('/dashboard')} style={{ padding: '8px 16px', marginRight: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        Back to Orders
-                    </button>
-                    <button onClick={() => navigate('/products')} style={{ padding: '8px 16px', backgroundColor: '#1E90FF', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        Manage Products
-                    </button>
-                </div>
-            </div>
+            <AdminNavbar title="Sales Analytics" icon="📊" />
 
             {/* Top KPI Cards */}
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
-                <div style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', borderLeft: '5px solid #4CAF50' }}>
-                    <h3 style={{ margin: 0, color: '#666' }}>Total Revenue</h3>
-                    <h1 style={{ margin: '10px 0 0 0', color: '#333' }}>Rs. {totalRevenue.toFixed(2)}</h1>
+            <div style={{ display: 'flex', gap: '24px', marginBottom: '40px' }}>
+                <div style={{ flex: 1, backgroundColor: '#ffffff', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ width: '6px', height: '100%', backgroundColor: '#4CAF50', position: 'absolute', left: 0, top: 0 }}></div>
+                    <h3 style={{ margin: 0, color: '#64748b', fontSize: '1rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Revenue</h3>
+                    <h1 style={{ margin: '12px 0 0 0', color: '#0f172a', fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px' }}>Rs. {totalRevenue.toFixed(2)}</h1>
                 </div>
-                <div style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', borderLeft: '5px solid #1E90FF' }}>
-                    <h3 style={{ margin: 0, color: '#666' }}>Total Orders</h3>
-                    <h1 style={{ margin: '10px 0 0 0', color: '#333' }}>{orders.length}</h1>
+                <div style={{ flex: 1, backgroundColor: '#ffffff', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ width: '6px', height: '100%', backgroundColor: '#1E90FF', position: 'absolute', left: 0, top: 0 }}></div>
+                    <h3 style={{ margin: 0, color: '#64748b', fontSize: '1rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Orders</h3>
+                    <h1 style={{ margin: '12px 0 0 0', color: '#0f172a', fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px' }}>{orders.length}</h1>
                 </div>
             </div>
 
             {/* The Recharts Graph */}
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <h2 style={{ marginTop: 0, color: '#333', marginBottom: '20px' }}>Revenue Over Time</h2>
+            <div style={{ backgroundColor: '#ffffff', padding: '32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+                <h2 style={{ marginTop: 0, color: '#2c3e50', marginBottom: '24px', fontSize: '1.4rem', fontWeight: '700' }}>Revenue Over Time</h2>
 
                 <div style={{ width: '100%', height: 400 }}>
                     <ResponsiveContainer>
                         <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip formatter={(value) => `Rs. ${value.toFixed(2)}`} />
-                            <Legend />
-                            <Line type="monotone" dataKey="sales" name="Daily Sales" stroke="#4CAF50" strokeWidth={3} activeDot={{ r: 8 }} />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                            <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }} dy={10} />
+                            <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }} dx={-10} />
+                            <Tooltip formatter={(value) => `Rs. ${value.toFixed(2)}`} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 8px 25px rgba(0,0,0,0.1)', fontWeight: '600' }} itemStyle={{ color: '#4CAF50' }} />
+                            <Legend wrapperStyle={{ paddingTop: '20px', fontWeight: '600', color: '#475569' }} />
+                            <Line type="monotone" dataKey="sales" name="Daily Sales" stroke="#4CAF50" strokeWidth={4} dot={{ r: 4, strokeWidth: 2, fill: '#ffffff', stroke: '#4CAF50' }} activeDot={{ r: 8, strokeWidth: 0, fill: '#4CAF50', filter: 'drop-shadow(0px 0px 5px rgba(76,175,80,0.5))' }} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

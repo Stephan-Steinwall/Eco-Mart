@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axiosConfig';
+import AdminNavbar from '../components/AdminNavbar';
 
 export default function Users() {
     const navigate = useNavigate();
@@ -57,64 +58,67 @@ export default function Users() {
     if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px' }}>Loading Users...</h2>;
 
     return (
-        <div style={{ padding: '30px', fontFamily: 'sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
+        <div style={{ padding: '40px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif', backgroundColor: '#f4f7f6', minHeight: '100vh', color: '#1a1a1a' }}>
 
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>👥 User Management</h1>
-                <div>
-                    <button onClick={() => navigate('/dashboard')} style={{ padding: '8px 16px', marginRight: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        Back to Orders
-                    </button>
-                    <button onClick={() => navigate('/analytics')} style={{ padding: '8px 16px', backgroundColor: '#9370DB', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        Analytics
-                    </button>
-                </div>
-            </div>
+            <AdminNavbar title="User Management" icon="👥" />
 
             {/* Users Table */}
-            <div style={{ backgroundColor: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                    <thead style={{ backgroundColor: '#333', color: 'white' }}>
+                    <thead style={{ backgroundColor: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
                         <tr>
-                            <th style={{ padding: '15px' }}>ID</th>
-                            <th style={{ padding: '15px' }}>Name</th>
-                            <th style={{ padding: '15px' }}>Email</th>
-                            <th style={{ padding: '15px' }}>Role</th>
-                            <th style={{ padding: '15px' }}>Actions</th>
+                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>ID</th>
+                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>Name</th>
+                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>Email</th>
+                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>Role</th>
+                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em', textAlign: 'right' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '15px' }}>{user.id}</td>
-                                <td style={{ padding: '15px', fontWeight: 'bold' }}>{user.firstName} {user.lastName}</td>
-                                <td style={{ padding: '15px', color: '#666' }}>{user.email}</td>
-                                <td style={{ padding: '15px' }}>
+                        {users.map((user, index) => (
+                            <tr key={user.id} style={{ borderBottom: '1px solid #f1f5f9', transition: 'background-color 0.2s', backgroundColor: index % 2 === 0 ? '#ffffff' : '#fafafa' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#ffffff' : '#fafafa'}>
+                                <td style={{ padding: '20px 24px', fontWeight: '700', color: '#0f172a', fontSize: '0.95rem' }}>{user.id}</td>
+                                <td style={{ padding: '20px 24px', fontWeight: '700', color: '#334155', fontSize: '1rem' }}>{user.firstName} {user.lastName}</td>
+                                <td style={{ padding: '20px 24px', color: '#475569', fontSize: '0.95rem' }}>{user.email}</td>
+                                <td style={{ padding: '20px 24px' }}>
                                     <select
                                         value={user.role}
                                         onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                         style={{
-                                            padding: '5px',
-                                            borderRadius: '4px',
+                                            padding: '8px 14px',
+                                            borderRadius: '24px',
                                             cursor: 'pointer',
                                             backgroundColor: user.role === 'ROLE_ADMIN' ? '#FFF3E0' : '#E8F5E9',
-                                            fontWeight: 'bold',
+                                            fontWeight: '800',
+                                            fontSize: '0.75rem',
+                                            letterSpacing: '0.5px',
+                                            textTransform: 'uppercase',
                                             color: user.role === 'ROLE_ADMIN' ? '#FF9800' : '#4CAF50',
-                                            border: '1px solid #ccc'
+                                            border: user.role === 'ROLE_ADMIN' ? '1px solid #FFE0B2' : '1px solid #C8E6C9',
+                                            outline: 'none',
+                                            appearance: 'auto',
+                                            textAlign: 'center'
                                         }}
                                     >
                                         <option value="ROLE_USER">Customer</option>
                                         <option value="ROLE_ADMIN">Admin</option>
                                     </select>
                                 </td>
-                                <td style={{ padding: '15px' }}>
-                                    <button onClick={() => handleDelete(user.id)} style={{ padding: '5px 10px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                                <td style={{ padding: '20px 24px', textAlign: 'right' }}>
+                                    <button onClick={() => handleDelete(user.id)} style={{ padding: '8px 16px', backgroundColor: '#FEE2E2', color: '#DC2626', border: '1px solid #FECACA', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#FECACA'; e.currentTarget.style.transform = 'translateY(-1px)'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#FEE2E2'; e.currentTarget.style.transform = 'translateY(0)'; }}>
                                         Delete
                                     </button>
                                 </td>
                             </tr>
                         ))}
+                        {users.length === 0 && (
+                            <tr>
+                                <td colSpan="5" style={{ padding: '60px', textAlign: 'center', color: '#94a3b8' }}>
+                                    <div style={{ marginBottom: '16px', fontSize: '3rem' }}>👥</div>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: '600', color: '#64748b' }}>No users found</div>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
