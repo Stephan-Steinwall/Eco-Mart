@@ -73,7 +73,12 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), OrderHistoryActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
-            }
+            } else if (itemId == R.id.nav_profile) {
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        }
+
             return false;
         });
 

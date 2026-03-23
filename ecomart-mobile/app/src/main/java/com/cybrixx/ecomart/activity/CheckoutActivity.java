@@ -68,6 +68,18 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
         etPhone = findViewById(R.id.etPhone);
         btnPayNow = findViewById(R.id.btnPayNow);
 
+        SharedPrefsManager prefs = new SharedPrefsManager(this);
+
+        String savedAddress = prefs.getAddress();
+        if (savedAddress != null && !savedAddress.isEmpty()) {
+            etAddress.setText(savedAddress);
+        }
+
+        String savedPhone = prefs.getPhone();
+        if (savedPhone != null && !savedPhone.isEmpty()) {
+            etPhone.setText(savedPhone);
+        }
+
         databaseHelper = new DatabaseHelper(this);
         cartItemList = databaseHelper.getCartItems();
         calculateTotal();

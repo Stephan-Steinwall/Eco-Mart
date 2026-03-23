@@ -76,7 +76,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_orders) {
                 return true; // Already here
-            }
+            } else if (itemId == R.id.nav_profile) {
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        }
             return false;
         });
     }

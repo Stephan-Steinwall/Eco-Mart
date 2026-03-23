@@ -21,14 +21,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBDZCNxu--q2AI-HjfE53RwX6oCXszVVLA" />
 
-        <activity
-            android:name=".activity.LoginActivity"
-            android:exported="true">
+        <activity android:name=".activity.SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LoginActivity" android:exported="false" />
 
         <activity
             android:name=".activity.RegisterActivity"
@@ -46,6 +45,8 @@
         <activity android:name=".activity.OrderHistoryActivity" android:exported="false" />
 
         <activity android:name=".activity.TrackingActivity" android:exported="false" />
+
+        <activity android:name=".activity.ProfileActivity" />
 
         <service
             android:name=".service.EcoMartMessagingService"
