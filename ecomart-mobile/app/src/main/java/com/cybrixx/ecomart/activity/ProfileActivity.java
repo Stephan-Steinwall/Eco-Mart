@@ -1,6 +1,7 @@
 package com.cybrixx.ecomart.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEmail, etPhone, etAddress;
-    private Button btnSaveProfile, btnLogout;
+    private Button btnSaveProfile, btnLogout,btnCallSupport;
     private UserApi userApi;
     private SharedPrefsManager prefsManager;
 
@@ -41,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnLogout = findViewById(R.id.btnLogout);
+        btnCallSupport = findViewById(R.id.btnCallSupport);
 
         setupBottomNavigation();
         fetchUserData();
@@ -52,6 +54,17 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             startActivity(intent);
             finishAffinity(); // Clear all activities
+        });
+
+        btnCallSupport.setOnClickListener(v -> {
+            // The phone number for your "Store"
+            String supportNumber = "0112345678";
+
+            // ACTION_DIAL opens the phone app with the number typed in.
+            // It does NOT require any special AndroidManifest permissions!
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+            dialIntent.setData(Uri.parse("tel:" + supportNumber));
+            startActivity(dialIntent);
         });
     }
 
