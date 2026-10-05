@@ -8,8 +8,13 @@ import org.json.JSONObject;
 
 public class SharedPrefsManager {
     private static final String PREF_NAME = "ecomart_prefs";
-    private static final String KEY_TOKEN = "jwt_token";
-    private static final String KEY_ROLE = "user_role";
+    private static final String KEY_TOKEN = "JWT_TOKEN";
+    private static final String KEY_ROLE = "USER_ROLE";
+    private static final String KEY_FIRST_NAME = "FIRST_NAME";
+    private static final String KEY_LAST_NAME = "LAST_NAME";
+    private static final String KEY_EMAIL = "EMAIL";
+    private static final String KEY_PHONE = "PHONE";
+    private static final String KEY_ADDRESS = "ADDRESS";
 
     public SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -21,17 +26,17 @@ public class SharedPrefsManager {
 
     public void saveAuthData(String token, String role, String firstName, String lastName, String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("JWT_TOKEN", token);
-        editor.putString("USER_ROLE", role);
-        editor.putString("FIRST_NAME", firstName);
-        editor.putString("LAST_NAME", lastName);
-        editor.putString("EMAIL", email);
+        editor.putString(KEY_TOKEN, token);
+        editor.putString(KEY_ROLE, role);
+        editor.putString(KEY_FIRST_NAME, firstName);
+        editor.putString(KEY_LAST_NAME, lastName);
+        editor.putString(KEY_EMAIL, email);
         editor.apply();
     }
 
-    public String getFirstName() { return sharedPreferences.getString("FIRST_NAME", "Eco"); }
-    public String getLastName() { return sharedPreferences.getString("LAST_NAME", "Customer"); }
-    public String getEmail() { return sharedPreferences.getString("EMAIL", "customer@ecomart.lk"); }
+    public String getFirstName() { return sharedPreferences.getString(KEY_FIRST_NAME, "Eco"); }
+    public String getLastName() { return sharedPreferences.getString(KEY_LAST_NAME, "Customer"); }
+    public String getEmail() { return sharedPreferences.getString(KEY_EMAIL, "customer@ecomart.lk"); }
 
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, null);
@@ -43,24 +48,24 @@ public class SharedPrefsManager {
     }
     public void updateProfileData(String firstName, String lastName, String phone, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("FIRST_NAME", firstName);
-        editor.putString("LAST_NAME", lastName);
-        editor.putString("PHONE", phone);
-        editor.putString("ADDRESS", address);
+        editor.putString(KEY_FIRST_NAME, firstName);
+        editor.putString(KEY_LAST_NAME, lastName);
+        editor.putString(KEY_PHONE, phone);
+        editor.putString(KEY_ADDRESS, address);
         editor.apply();
     }
 
     // Add these new getters
     public String getPhone() {
-        return sharedPreferences.getString("PHONE", "");
+        return sharedPreferences.getString(KEY_PHONE, "");
     }
 
     public String getAddress() {
-        return sharedPreferences.getString("ADDRESS", "");
+        return sharedPreferences.getString(KEY_ADDRESS, "");
     }
 
     public boolean isLoggedIn() {
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
+        String token = sharedPreferences.getString(KEY_TOKEN, null);
 
         // 1. If there's no token at all, they aren't logged in
         if (token == null || token.isEmpty()) {

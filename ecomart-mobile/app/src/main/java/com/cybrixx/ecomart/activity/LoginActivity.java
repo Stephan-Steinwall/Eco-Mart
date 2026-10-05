@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         // Auto-login check: If token exists, skip login
         if (sharedPrefsManager.getToken() != null) {
             goToHome();
+            return;
         }
 
         etEmail = findViewById(R.id.etEmail);

@@ -239,6 +239,10 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
                     Toast.makeText(CheckoutActivity.this, "Order Placed Successfully!", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(CheckoutActivity.this, OrderHistoryActivity.class));
                     finishAffinity();
+                } else {
+                    Toast.makeText(CheckoutActivity.this, "Order Failed: Please try again", Toast.LENGTH_LONG).show();
+                    btnPayNow.setEnabled(true);
+                    btnPayNow.setText(String.format("Pay Rs. %.2f", finalTotalAmount));
                 }
             }
 

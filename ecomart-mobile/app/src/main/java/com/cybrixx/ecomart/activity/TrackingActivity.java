@@ -130,6 +130,11 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
                 // Just go back one screen to the main Order History list
                 finish();
                 return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                finishAffinity();
+                return true;
             }
             return false;
         });
