@@ -23,6 +23,7 @@ export default function Login() {
                 // Save the data
                 localStorage.setItem('JWT_TOKEN', response.data.token);
                 localStorage.setItem('USER_NAME', response.data.firstName);
+                localStorage.setItem('USER_EMAIL', response.data.email);
 
                 // Teleport to the Dashboard
                 navigate('/dashboard');

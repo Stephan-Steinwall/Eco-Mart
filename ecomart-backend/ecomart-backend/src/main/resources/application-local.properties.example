@@ -1,0 +1,19 @@
+# Copy this file to "application-local.properties" (same folder) and fill in
+# your real Supabase values. That file is gitignored, so your password never
+# gets committed.
+#
+# Find these in the Supabase dashboard: open your project -> "Connect" button
+# at the top -> pick a connection method -> copy the pieces below out of the
+# connection string it shows you.
+
+# --- Option 1: Direct connection (recommended for Spring Boot) ---
+# Only works if your network has IPv6, or you bought Supabase's IPv4 add-on.
+spring.datasource.url=jdbc:postgresql://db.<PROJECT-REF>.supabase.co:5432/postgres?sslmode=require
+spring.datasource.username=postgres
+spring.datasource.password=<YOUR-DB-PASSWORD>
+
+# --- Option 2: Session Pooler (use this instead if Option 1 times out -
+#     that means your network is IPv4-only) ---
+# spring.datasource.url=jdbc:postgresql://<POOLER-HOST-FROM-DASHBOARD>:5432/postgres?sslmode=require
+# spring.datasource.username=postgres.<PROJECT-REF>
+# spring.datasource.password=<YOUR-DB-PASSWORD>
