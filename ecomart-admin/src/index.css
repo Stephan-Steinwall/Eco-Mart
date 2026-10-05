@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-primary: #1F6D4C;
+  --color-brand-primary-dark: #143F2C;
+  --color-brand-primary-container: #DCEDE2;
+  --color-brand-accent: #F2994A;
+  --color-brand-accent-dark: #D97F2E;
+  --color-brand-accent-container: #FBE4CC;
+
+  --color-bg: #FAF8F4;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F2EFE7;
+  --color-surface-dim: #EAE6DB;
+
+  --color-text-primary: #23231F;
+  --color-text-secondary: #716C62;
+  --color-text-tertiary: #A39D90;
+
+  --color-outline: #E6E1D6;
+  --color-outline-strong: #D3CCBD;
+
+  --color-error: #C4433A;
+  --color-error-container: #F7E1DE;
+  --color-warning: #E8A33D;
+  --color-warning-container: #FBE9CF;
+  --color-info: #3B76C7;
+  --color-info-container: #DEE9F8;
+
+  --color-status-pending: #A39D90;
+  --color-status-preparing: #3B76C7;
+  --color-status-on-the-way: #8E5FD9;
+  --color-status-delivered: #1F6D4C;
+  --color-status-cancelled: #C4433A;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}

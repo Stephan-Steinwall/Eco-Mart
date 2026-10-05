@@ -34,13 +34,10 @@ export default function Products() {
         e.preventDefault();
         try {
             if (editingId) {
-                // Update existing
                 await api.put(`/admin/products/${editingId}`, formData);
             } else {
-                // Create new
                 await api.post('/admin/products', formData);
             }
-            // Reset form and refresh list
             setFormData({ name: '', description: '', price: '', imageUrl: '' });
             setEditingId(null);
             fetchProducts();
@@ -67,75 +64,85 @@ export default function Products() {
         }
     };
 
-    if (loading) return <h2>Loading Products...</h2>;
+    const inputClass = "px-4 py-3 rounded-xl border border-outline-strong bg-bg text-text-primary placeholder:text-text-tertiary outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary-container transition-all";
 
     return (
-        <div style={{ padding: '40px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif', backgroundColor: '#f4f7f6', minHeight: '100vh', color: '#1a1a1a' }}>
-            <AdminNavbar title="Product Management" icon="📦" />
+        <div className="min-h-screen bg-bg p-8 lg:p-10">
+            <AdminNavbar title="Products" icon="🥬" />
 
-            {/* The Add/Edit Form */}
-            <div style={{ backgroundColor: '#ffffff', padding: '30px', borderRadius: '16px', marginBottom: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9' }}>
-                <h3 style={{ marginTop: 0, marginBottom: '20px', color: '#475569', fontSize: '1.2rem', fontWeight: '700' }}>{editingId ? '✏️ Edit Product' : '➕ Add New Product'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleInputChange} required style={{ padding: '12px 16px', flex: '1', minWidth: '200px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '1rem', transition: 'box-shadow 0.2s, border-color 0.2s', backgroundColor: '#f8fafc' }} onFocus={(e) => { e.target.style.borderColor = '#1E90FF'; e.target.style.boxShadow = '0 0 0 3px rgba(30,144,255,0.15)'; }} onBlur={(e) => { e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = 'none'; }} />
-                    <input type="text" name="description" placeholder="Description" value={formData.description} onChange={handleInputChange} required style={{ padding: '12px 16px', flex: '2', minWidth: '300px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '1rem', transition: 'box-shadow 0.2s, border-color 0.2s', backgroundColor: '#f8fafc' }} onFocus={(e) => { e.target.style.borderColor = '#1E90FF'; e.target.style.boxShadow = '0 0 0 3px rgba(30,144,255,0.15)'; }} onBlur={(e) => { e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = 'none'; }} />
-                    <input type="number" name="price" placeholder="Price (Rs)" value={formData.price} onChange={handleInputChange} required style={{ padding: '12px 16px', width: '120px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '1rem', transition: 'box-shadow 0.2s, border-color 0.2s', backgroundColor: '#f8fafc' }} onFocus={(e) => { e.target.style.borderColor = '#1E90FF'; e.target.style.boxShadow = '0 0 0 3px rgba(30,144,255,0.15)'; }} onBlur={(e) => { e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = 'none'; }} />
-                    <input type="text" name="imageUrl" placeholder="Image URL" value={formData.imageUrl} onChange={handleInputChange} style={{ padding: '12px 16px', flex: '1', minWidth: '200px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '1rem', transition: 'box-shadow 0.2s, border-color 0.2s', backgroundColor: '#f8fafc' }} onFocus={(e) => { e.target.style.borderColor = '#1E90FF'; e.target.style.boxShadow = '0 0 0 3px rgba(30,144,255,0.15)'; }} onBlur={(e) => { e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = 'none'; }} />
-                    
-                    <button type="submit" style={{ padding: '12px 24px', backgroundColor: editingId ? '#1E90FF' : '#4CAF50', color: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '700', fontSize: '1rem', transition: 'all 0.2s', boxShadow: editingId ? '0 4px 12px rgba(30,144,255,0.3)' : '0 4px 12px rgba(76,175,80,0.3)' }} onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = editingId ? '0 6px 16px rgba(30,144,255,0.4)' : '0 6px 16px rgba(76,175,80,0.4)'; }} onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = editingId ? '0 4px 12px rgba(30,144,255,0.3)' : '0 4px 12px rgba(76,175,80,0.3)'; }}>
-                        {editingId ? 'Update Product' : 'Add Product'}
+            <div className="bg-surface border border-outline rounded-2xl p-7 mb-8">
+                <h3 className="font-display text-lg font-bold text-text-primary mb-5">
+                    {editingId ? 'Edit product' : 'Add a new product'}
+                </h3>
+                <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-center">
+                    <input type="text" name="name" placeholder="Product name" value={formData.name} onChange={handleInputChange} required className={`${inputClass} flex-1 min-w-[200px]`} />
+                    <input type="text" name="description" placeholder="Description" value={formData.description} onChange={handleInputChange} required className={`${inputClass} flex-[2] min-w-[280px]`} />
+                    <input type="number" name="price" placeholder="Price (Rs)" value={formData.price} onChange={handleInputChange} required className={`${inputClass} w-32`} />
+                    <input type="text" name="imageUrl" placeholder="Image URL" value={formData.imageUrl} onChange={handleInputChange} className={`${inputClass} flex-1 min-w-[200px]`} />
+
+                    <button type="submit" className={`px-6 py-3 rounded-xl font-bold text-white transition-all active:scale-[0.98] ${editingId ? 'bg-info hover:brightness-95' : 'bg-brand-primary hover:bg-brand-primary-dark'}`}>
+                        {editingId ? 'Update product' : 'Add product'}
                     </button>
                     {editingId && (
-                        <button type="button" onClick={() => { setEditingId(null); setFormData({ name: '', description: '', price: '', imageUrl: '' }); }} style={{ padding: '12px 24px', backgroundColor: '#ffffff', color: '#64748b', border: '1px solid #cbd5e1', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', fontSize: '1rem', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
+                        <button type="button" onClick={() => { setEditingId(null); setFormData({ name: '', description: '', price: '', imageUrl: '' }); }} className="px-6 py-3 rounded-xl font-semibold text-text-secondary border border-outline-strong bg-surface hover:bg-surface-alt transition-colors">
                             Cancel
                         </button>
                     )}
                 </form>
             </div>
 
-            {/* The Products Table */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                    <thead style={{ backgroundColor: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-                        <tr>
-                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>ID</th>
-                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>Name</th>
-                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>Price</th>
-                            <th style={{ padding: '20px 24px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em', textAlign: 'right' }}>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map((product, index) => (
-                            <tr key={product.id} style={{ borderBottom: '1px solid #f1f5f9', transition: 'background-color 0.2s', backgroundColor: index % 2 === 0 ? '#ffffff' : '#fafafa' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#ffffff' : '#fafafa'}>
-                                <td style={{ padding: '20px 24px', fontWeight: '700', color: '#0f172a', fontSize: '0.95rem' }}>{product.id}</td>
-                                <td style={{ padding: '20px 24px', fontWeight: '600', color: '#334155', fontSize: '1rem' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        {product.imageUrl && (
-                                            <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', flexShrink: 0 }}>
-                                                <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
-                                            </div>
-                                        )}
-                                        <span>{product.name}</span>
-                                    </div>
-                                </td>
-                                <td style={{ padding: '20px 24px', fontWeight: '700', color: '#0f172a', fontSize: '0.95rem' }}>Rs. {product.price}</td>
-                                <td style={{ padding: '20px 24px', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                                    <button onClick={() => handleEdit(product)} style={{ padding: '8px 16px', backgroundColor: '#FFF3E0', color: '#FF9800', border: '1px solid #FFE0B2', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#FFE0B2'; e.currentTarget.style.transform = 'translateY(-1px)'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#FFF3E0'; e.currentTarget.style.transform = 'translateY(0)'; }}>Edit</button>
-                                    <button onClick={() => handleDelete(product.id)} style={{ padding: '8px 16px', backgroundColor: '#FEE2E2', color: '#DC2626', border: '1px solid #FECACA', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#FECACA'; e.currentTarget.style.transform = 'translateY(-1px)'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#FEE2E2'; e.currentTarget.style.transform = 'translateY(0)'; }}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                        {products.length === 0 && (
+            <div className="bg-surface border border-outline rounded-2xl overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-surface-alt border-b border-outline">
                             <tr>
-                                <td colSpan="4" style={{ padding: '60px', textAlign: 'center', color: '#94a3b8' }}>
-                                    <div style={{ marginBottom: '16px', fontSize: '3rem' }}>🛍️</div>
-                                    <div style={{ fontSize: '1.2rem', fontWeight: '600', color: '#64748b' }}>No products yet</div>
-                                    <div style={{ fontSize: '0.9rem', marginTop: '8px' }}>Add some products to get started!</div>
-                                </td>
+                                <th className="px-6 py-4 text-text-secondary font-bold text-xs tracking-wide">ID</th>
+                                <th className="px-6 py-4 text-text-secondary font-bold text-xs tracking-wide">Name</th>
+                                <th className="px-6 py-4 text-text-secondary font-bold text-xs tracking-wide">Price</th>
+                                <th className="px-6 py-4 text-text-secondary font-bold text-xs tracking-wide text-right">Actions</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {loading && (
+                                <tr><td colSpan={4} className="px-6 py-16 text-center text-text-tertiary">Loading products…</td></tr>
+                            )}
+                            {!loading && products.map((product) => (
+                                <tr key={product.id} className="border-b border-outline last:border-0 hover:bg-surface-alt/60 transition-colors">
+                                    <td className="px-6 py-4 font-bold text-text-primary">{product.id}</td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            {product.imageUrl && (
+                                                <img
+                                                    src={product.imageUrl}
+                                                    alt={product.name}
+                                                    className="w-10 h-10 rounded-lg object-cover border border-outline shrink-0"
+                                                    onError={(e) => { e.target.style.display = 'none'; }}
+                                                />
+                                            )}
+                                            <span className="font-semibold text-text-primary">{product.name}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 font-bold text-text-primary">Rs. {product.price}</td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex gap-2.5 justify-end">
+                                            <button onClick={() => handleEdit(product)} className="px-4 py-2 rounded-lg text-xs font-bold text-warning bg-warning-container border border-warning/30 hover:brightness-95 transition-all">Edit</button>
+                                            <button onClick={() => handleDelete(product.id)} className="px-4 py-2 rounded-lg text-xs font-bold text-error bg-error-container border border-error/20 hover:brightness-95 transition-all">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            {!loading && products.length === 0 && (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-20 text-center">
+                                        <div className="text-5xl mb-4">🛍️</div>
+                                        <div className="text-lg font-bold text-text-secondary">No products yet</div>
+                                        <div className="text-sm text-text-tertiary mt-1">Add some products to get started!</div>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
