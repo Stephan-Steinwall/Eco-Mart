@@ -39,9 +39,6 @@
         <activity android:name=".activity.CartActivity" android:exported="false" />
         <activity android:name=".activity.CheckoutActivity" android:exported="false" />
 
-        <activity android:name="lk.payhere.androidsdk.PHMainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:replace="android:theme"/>
-
         <activity android:name=".activity.OrderHistoryActivity" android:exported="false" />
 
         <activity android:name=".activity.TrackingActivity" android:exported="false" />
