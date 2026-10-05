@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9">
+    android:background="@color/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,47 +14,57 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:padding="16dp"
-            android:elevation="4dp">
+            android:background="@color/bg"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="12dp">
             <TextView
                 android:id="@+id/tvTrackingTitle"
+                style="@style/TextAppearance.EcoMart.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tracking Order #..."
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#333333"/>
+                android:text="Tracking order #…"/>
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/trackingMapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginHorizontal="20dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/outline"
+            app:strokeWidth="1dp">
+
+            <fragment
+                android:id="@+id/trackingMapFragment"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:padding="24dp"
-            android:elevation="8dp">
+            android:background="@color/surface"
+            android:padding="22dp"
+            android:layout_margin="20dp"
+            android:elevation="2dp">
 
             <TextView
+                style="@style/TextAppearance.EcoMart.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Order Status"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#333333"
-                android:layout_marginBottom="16dp"/>
+                android:textSize="15sp"
+                android:text="Order status"
+                android:layout_marginBottom="14dp"/>
 
-            <TextView android:id="@+id/stepPending" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. Order Received (Pending)" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
-            <TextView android:id="@+id/stepPreparing" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2. Preparing Your Order" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
-            <TextView android:id="@+id/stepOnTheWay" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3. Out for Delivery (On the way)" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
-            <TextView android:id="@+id/stepDelivered" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="4. Delivered" android:textSize="16sp" android:textColor="#BDBDBD" android:paddingVertical="8dp"/>
+            <TextView android:id="@+id/stepPending" style="@style/TextAppearance.EcoMart.BodyMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1 · Order received" android:textColor="@color/status_pending" android:paddingVertical="6dp"/>
+            <TextView android:id="@+id/stepPreparing" style="@style/TextAppearance.EcoMart.BodyMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2 · Preparing your order" android:textColor="@color/status_pending" android:paddingVertical="6dp"/>
+            <TextView android:id="@+id/stepOnTheWay" style="@style/TextAppearance.EcoMart.BodyMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3 · Out for delivery" android:textColor="@color/status_pending" android:paddingVertical="6dp"/>
+            <TextView android:id="@+id/stepDelivered" style="@style/TextAppearance.EcoMart.BodyMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="4 · Delivered" android:textColor="@color/status_pending" android:paddingVertical="6dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -63,9 +73,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="#4CAF50"
-        app:itemTextColor="#4CAF50"/>
-
+        android:background="@color/surface"
+        app:menu="@menu/bottom_nav_menu"/>
 </RelativeLayout>

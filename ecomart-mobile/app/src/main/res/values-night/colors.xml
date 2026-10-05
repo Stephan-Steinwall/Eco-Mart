@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#5CB98B</color>
+    <color name="brand_primary_dark">#DCEDE2</color>
+    <color name="brand_primary_container">#20402F</color>
+    <color name="brand_accent">#F2A662</color>
+    <color name="brand_accent_dark">#FBE4CC</color>
+    <color name="brand_accent_container">#4A3012</color>
+
+    <color name="bg">#171714</color>
+    <color name="surface">#201F1B</color>
+    <color name="surface_alt">#2A2924</color>
+    <color name="surface_dim">#332F28</color>
+
+    <color name="text_primary">#F1EFE8</color>
+    <color name="text_secondary">#B3AEA1</color>
+    <color name="text_tertiary">#827D70</color>
+    <color name="on_primary">#0D2318</color>
+    <color name="on_accent">#301A02</color>
+
+    <color name="outline">#37352D</color>
+    <color name="outline_strong">#4A4639</color>
+
+    <color name="success">#5CB98B</color>
+    <color name="error">#E2756B</color>
+    <color name="error_container">#4A2320</color>
+    <color name="warning">#F2A662</color>
+    <color name="info">#7AA7E0</color>
+
+    <color name="status_pending">#827D70</color>
+    <color name="status_preparing">#7AA7E0</color>
+    <color name="status_on_the_way">#B497EC</color>
+    <color name="status_delivered">#5CB98B</color>
+    <color name="status_cancelled">#E2756B</color>
+</resources>

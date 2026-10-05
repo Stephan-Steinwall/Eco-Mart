@@ -59,8 +59,8 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
         TextView stepDelivered = findViewById(R.id.stepDelivered);
 
         // Reset all to gray first (handled in XML, but safe to enforce)
-        int activeColor = Color.parseColor("#4CAF50"); // EcoMart Green
-        int inactiveColor = Color.parseColor("#BDBDBD"); // Gray
+        int activeColor = Color.parseColor("#1F6D4C"); // EcoMart Green
+        int inactiveColor = Color.parseColor("#A39D90"); // Gray
 
         // Highlight based on current status
         if (status != null) {

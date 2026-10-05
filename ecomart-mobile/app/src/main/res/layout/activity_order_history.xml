@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9">
+    android:background="@color/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,21 +11,25 @@
         android:orientation="vertical"
         android:layout_above="@id/bottomNavigation">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Orders"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp"
-            android:background="#FFFFFF"
-            android:textColor="#333333"/>
+            android:background="@color/bg"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="12dp">
+            <TextView
+                style="@style/TextAppearance.EcoMart.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My orders"/>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewOrders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
+            android:paddingHorizontal="16dp"
             android:clipToPadding="false"/>
     </LinearLayout>
 
@@ -34,8 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="#4CAF50"
-        app:itemTextColor="#4CAF50"/>
+        android:background="@color/surface"
+        app:menu="@menu/bottom_nav_menu"/>
 </RelativeLayout>

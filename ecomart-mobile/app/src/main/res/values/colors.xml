@@ -2,4 +2,41 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand: deep forest green (leaves/herbs) + warm papaya accent (fruit) -->
+    <color name="brand_primary">#1F6D4C</color>
+    <color name="brand_primary_dark">#143F2C</color>
+    <color name="brand_primary_container">#DCEDE2</color>
+    <color name="brand_accent">#F2994A</color>
+    <color name="brand_accent_dark">#D97F2E</color>
+    <color name="brand_accent_container">#FBE4CC</color>
+
+    <!-- Neutrals: warm off-white, not clinical grey -->
+    <color name="bg">#FAF8F4</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_alt">#F2EFE7</color>
+    <color name="surface_dim">#EAE6DB</color>
+
+    <color name="text_primary">#23231F</color>
+    <color name="text_secondary">#716C62</color>
+    <color name="text_tertiary">#A39D90</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_accent">#FFFFFF</color>
+
+    <color name="outline">#E6E1D6</color>
+    <color name="outline_strong">#D3CCBD</color>
+
+    <!-- Semantic -->
+    <color name="success">#1F6D4C</color>
+    <color name="error">#C4433A</color>
+    <color name="error_container">#F7E1DE</color>
+    <color name="warning">#E8A33D</color>
+    <color name="info">#3B76C7</color>
+
+    <!-- Order status (Tracking + history) -->
+    <color name="status_pending">#A39D90</color>
+    <color name="status_preparing">#3B76C7</color>
+    <color name="status_on_the_way">#8E5FD9</color>
+    <color name="status_delivered">#1F6D4C</color>
+    <color name="status_cancelled">#C4433A</color>
 </resources>
