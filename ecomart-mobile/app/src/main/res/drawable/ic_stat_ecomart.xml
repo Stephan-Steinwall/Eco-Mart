@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar notification icon: Android only uses the alpha channel, so it must be a flat white shape. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M19.5,3.5 C19.5,3.5 20.6,12.5 14,16 C9.5,18.4 5.5,16.5 5.5,16.5 C5.5,16.5 4.4,10.5 9.5,7 C13,4.6 19.5,3.5 19.5,3.5 Z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:pathData="M4,21 L11,13.5" />
+</vector>

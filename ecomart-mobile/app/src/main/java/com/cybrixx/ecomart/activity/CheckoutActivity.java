@@ -30,8 +30,10 @@ import java.util.Locale;
 
 import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.CartItem;
+import com.cybrixx.ecomart.network.NetworkErrors;
 import com.cybrixx.ecomart.util.DatabaseHelper;
 import com.cybrixx.ecomart.util.SharedPrefsManager;
+import com.google.android.material.snackbar.Snackbar;
 
 // PayHere Imports
 import lk.payhere.androidsdk.PHConfigs;
@@ -240,17 +242,24 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
                     startActivity(new Intent(CheckoutActivity.this, OrderHistoryActivity.class));
                     finishAffinity();
                 } else {
-                    Toast.makeText(CheckoutActivity.this, "Order Failed: Please try again", Toast.LENGTH_LONG).show();
-                    btnPayNow.setEnabled(true);
-                    btnPayNow.setText(String.format("Pay Rs. %.2f", finalTotalAmount));
+                    showOrderNotSaved("The server couldn't save your order (error " + response.code() + ").");
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                btnPayNow.setEnabled(true);
+                showOrderNotSaved(NetworkErrors.shortMessage(CheckoutActivity.this, t) + ".");
             }
         });
+    }
+
+    // The payment has already gone through at this point, so the Pay button stays disabled (paying
+    // again would charge the customer twice). Only saving the order is retried.
+    private void showOrderNotSaved(String reason) {
+        btnPayNow.setEnabled(false);
+        btnPayNow.setText("Finalizing...");
+        Snackbar.make(btnPayNow, reason + " Your payment went through - tap Retry to save your order.", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", v -> sendOrderToBackend())
+                .show();
     }
 }

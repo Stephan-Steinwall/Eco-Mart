@@ -13,8 +13,10 @@ import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.RegisterRequestDTO;
 import com.cybrixx.ecomart.model.TokenDTO;
 import com.cybrixx.ecomart.network.AuthApi;
+import com.cybrixx.ecomart.network.NetworkErrors;
 import com.cybrixx.ecomart.network.RetrofitClient;
 import com.cybrixx.ecomart.util.SharedPrefsManager;
+import com.google.android.material.snackbar.Snackbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,7 +96,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<TokenDTO> call, Throwable t) {
                 btnRegister.setEnabled(true);
                 btnRegister.setText("Register");
-                Toast.makeText(RegisterActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Snackbar.make(btnRegister, NetworkErrors.shortMessage(RegisterActivity.this, t), Snackbar.LENGTH_LONG)
+                        .setAction("Retry", v -> registerUser())
+                        .show();
             }
         });
     }

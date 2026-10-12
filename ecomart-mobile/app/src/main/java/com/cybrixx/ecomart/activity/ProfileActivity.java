@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.UserProfileDTO;
 import com.cybrixx.ecomart.network.RetrofitClient;
+import com.cybrixx.ecomart.network.NetworkErrors;
 import com.cybrixx.ecomart.network.UserApi;
+import com.cybrixx.ecomart.util.ErrorStateController;
+import com.cybrixx.ecomart.util.PushManager;
 import com.cybrixx.ecomart.util.SharedPrefsManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnSaveProfile, btnLogout,btnCallSupport;
     private UserApi userApi;
     private SharedPrefsManager prefsManager;
+    private ErrorStateController errorState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnLogout = findViewById(R.id.btnLogout);
         btnCallSupport = findViewById(R.id.btnCallSupport);
+        errorState = new ErrorStateController(findViewById(R.id.errorState));
 
         setupBottomNavigation();
         fetchUserData();
@@ -50,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSaveProfile.setOnClickListener(v -> saveUserData());
 
         btnLogout.setOnClickListener(v -> {
+            PushManager.unregister(this); // must run before the session (and its token) is cleared
             prefsManager.clearSession(); // Erase JWT Token
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -68,10 +74,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        errorState.release();
+    }
+
     private void fetchUserData() {
+        errorState.hide();
         userApi.getProfile().enqueue(new Callback<UserProfileDTO>() {
             @Override
             public void onResponse(Call<UserProfileDTO> call, Response<UserProfileDTO> response) {
+                if (isFinishing() || isDestroyed()) return;
                 if (response.isSuccessful() && response.body() != null) {
                     UserProfileDTO user = response.body();
                     etFirstName.setText(user.getFirstName());
@@ -79,12 +93,15 @@ public class ProfileActivity extends AppCompatActivity {
                     etEmail.setText(user.getEmail());
                     etPhone.setText(user.getPhone() != null ? user.getPhone() : "");
                     etAddress.setText(user.getAddress() != null ? user.getAddress() : "");
+                } else {
+                    errorState.showHttpError(response.code(), ProfileActivity.this::fetchUserData);
                 }
             }
 
             @Override
             public void onFailure(Call<UserProfileDTO> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                if (call.isCanceled() || isFinishing() || isDestroyed()) return;
+                errorState.showFailure(t, ProfileActivity.this::fetchUserData);
             }
         });
     }
@@ -118,7 +135,9 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this,
+                        NetworkErrors.shortMessage(ProfileActivity.this, t) + " - your changes weren't saved",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

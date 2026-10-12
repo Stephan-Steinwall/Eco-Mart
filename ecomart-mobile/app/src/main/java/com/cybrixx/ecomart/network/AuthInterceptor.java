@@ -25,8 +25,8 @@ public class AuthInterceptor implements Interceptor {
         SharedPrefsManager prefsManager = new SharedPrefsManager(context);
         String token = prefsManager.getToken();
 
-        // If the user is logged in, attach the token to the header
-        if (token != null) {
+        // If the user is logged in, attach the token to the header (unless the call already set one)
+        if (token != null && chain.request().header("Authorization") == null) {
             requestBuilder.addHeader("Authorization", "Bearer " + token);
         }
 

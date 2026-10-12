@@ -51,6 +51,13 @@ dependencies {
     implementation libs.recyclerview
 
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    // Generates the Glide API for EcoMartGlideModule (image cache configuration)
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+    // Pull-to-refresh gesture
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // Pinch-to-zoom and double-tap-to-zoom on the product image
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation 'com.github.PayHereDevs:payhere-android-sdk:v3.0.18'
 

@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/bg">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,6 +116,12 @@
                 android:textColor="@color/error"/>
         </LinearLayout>
     </ScrollView>
+
+        <!-- Covers the form when the profile can't be loaded, so empty fields can't be saved over the real profile -->
+        <include
+            android:id="@+id/errorState"
+            layout="@layout/view_error_state" />
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

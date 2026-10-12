@@ -12,8 +12,10 @@ import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.LoginRequestDTO;
 import com.cybrixx.ecomart.model.TokenDTO;
 import com.cybrixx.ecomart.network.AuthApi;
+import com.cybrixx.ecomart.network.NetworkErrors;
 import com.cybrixx.ecomart.network.RetrofitClient;
 import com.cybrixx.ecomart.util.SharedPrefsManager;
+import com.google.android.material.snackbar.Snackbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TokenDTO> call, Throwable t) { // [cite: 1845]
-                Toast.makeText(LoginActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Snackbar.make(btnLogin, NetworkErrors.shortMessage(LoginActivity.this, t), Snackbar.LENGTH_LONG)
+                        .setAction("Retry", v -> loginUser())
+                        .show();
             }
         });
     }

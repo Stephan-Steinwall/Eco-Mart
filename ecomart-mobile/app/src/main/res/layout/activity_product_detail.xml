@@ -12,10 +12,12 @@
         android:background="@color/bg"
         android:orientation="vertical">
 
-        <ImageView
+        <!-- Pinch to zoom, or double-tap to zoom in and back out -->
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/ivDetailImage"
             android:layout_width="match_parent"
             android:layout_height="320dp"
+            android:contentDescription="Product photo. Pinch or double-tap to zoom."
             android:scaleType="centerCrop"
             android:background="@color/surface_alt"/>
 

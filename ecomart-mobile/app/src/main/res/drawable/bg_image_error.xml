@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown when an image fails to load and isn't in the cache (e.g. offline). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:fillColor="@color/surface_alt"
+        android:pathData="M0,0h96v96h-96z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/text_tertiary"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M30,34 H66 C68.2,34 70,35.8 70,38 V58 C70,60.2 68.2,62 66,62 H30 C27.8,62 26,60.2 26,58 V38 C26,35.8 27.8,34 30,34 Z M26,56 L38,46 L46,53 L54,45 L70,58" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/text_tertiary"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M24,70 L72,28" />
+</vector>

@@ -7,11 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.bumptech.glide.Glide;
 
 import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.CartItem;
 import com.cybrixx.ecomart.util.DatabaseHelper;
+import com.cybrixx.ecomart.util.ImageLoader;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -49,7 +49,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvDetailName.setText(name);
         tvDetailPrice.setText("Rs. " + price);
         tvDetailDescription.setText(description);
-        Glide.with(this).load(imageUrl).placeholder(R.drawable.ic_launcher_background).into(ivDetailImage);
+        // Already in the disk cache from the Home grid, so this opens instantly (even offline)
+        ImageLoader.load(ivDetailImage, imageUrl);
 
         // 4. Quantity Logic
         btnPlus.setOnClickListener(v -> {

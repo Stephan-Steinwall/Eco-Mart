@@ -22,6 +22,9 @@
         <item name="colorError">@color/error</item>
         <item name="colorErrorContainer">@color/error_container</item>
 
+        <!-- Snackbar action buttons (UNDO, Retry, Got it): brand accent instead of Material's default lilac -->
+        <item name="colorPrimaryInverse">@color/brand_accent</item>
+
         <item name="android:fontFamily">@font/jakarta_var</item>
         <item name="fontFamily">@font/jakarta_var</item>
         <item name="android:textColorPrimary">@color/text_primary</item>

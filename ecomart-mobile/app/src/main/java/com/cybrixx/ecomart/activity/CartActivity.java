@@ -6,14 +6,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.adapter.CartAdapter;
+import com.cybrixx.ecomart.adapter.SwipeToDeleteCallback;
 import com.cybrixx.ecomart.model.CartItem;
 import com.cybrixx.ecomart.util.DatabaseHelper;
 
@@ -40,6 +43,14 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.CartU
         databaseHelper = new DatabaseHelper(this);
 
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
+
+        // Swipe a cart row left or right to remove it (with Undo, see onItemRemoved)
+        new ItemTouchHelper(new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(androidx.recyclerview.widget.RecyclerView.ViewHolder viewHolder, int direction) {
+                cartAdapter.removeAt(viewHolder.getBindingAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerViewCart);
 
         loadCartData();
         setupBottomNavigation();
@@ -73,6 +84,18 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.CartU
     @Override
     public void onCartUpdated() {
         calculateTotal();
+    }
+
+    @Override
+    public void onItemRemoved(CartItem removedItem) {
+        Snackbar.make(recyclerViewCart, removedItem.getName() + " removed", Snackbar.LENGTH_LONG)
+                .setAnchorView(findViewById(R.id.bottomCheckoutLayout))
+                .setAction("UNDO", v -> {
+                    // It was deleted, so addToCart() inserts it again with its old quantity.
+                    databaseHelper.addToCart(removedItem);
+                    loadCartData();
+                })
+                .show();
     }
 
     private void setupBottomNavigation() {

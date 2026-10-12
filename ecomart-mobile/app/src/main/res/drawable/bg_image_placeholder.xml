@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown while an image loads (and for products with no image). Has an intrinsic size so
+     image views with centerCrop / PhotoView scale it sensibly. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:fillColor="@color/surface_alt"
+        android:pathData="M0,0h96v96h-96z" />
+    <path
+        android:fillColor="@color/outline_strong"
+        android:pathData="M62,32 C62,32 66,56 48,64 C36,69.5 27,64 27,64 C27,64 24,48 37,39 C46,32.8 62,32 62,32 Z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/surface_alt"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:pathData="M31,68 L47,50" />
+</vector>

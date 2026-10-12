@@ -8,11 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
 import java.util.List;
 import com.cybrixx.ecomart.R;
 import com.cybrixx.ecomart.model.CartItem;
 import com.cybrixx.ecomart.util.DatabaseHelper;
+import com.cybrixx.ecomart.util.ImageLoader;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -24,6 +24,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     // Interface to tell the Activity that the Total Price needs to be recalculated
     public interface CartUpdateListener {
         void onCartUpdated();
+
+        // An item was removed (button or swipe) - lets the screen offer an Undo.
+        void onItemRemoved(CartItem removedItem);
+    }
+
+    // Removes the item at this position from the list and the database (shared by the Remove
+    // button and the swipe gesture).
+    public void removeAt(int position) {
+        if (position < 0 || position >= cartList.size()) return;
+        CartItem removed = cartList.remove(position);
+        databaseHelper.deleteItem(removed.getId());
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, cartList.size() - position);
+        listener.onCartUpdated(); // Update Total Price
+        listener.onItemRemoved(removed);
     }
 
     public CartAdapter(Context context, List<CartItem> cartList, CartUpdateListener listener) {
@@ -47,10 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvCartPrice.setText("Rs. " + item.getPrice());
         holder.tvCartQuantity.setText(String.valueOf(item.getQuantity()));
 
-        Glide.with(context)
-                .load(item.getImageUrl())
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(holder.ivCartImage);
+        ImageLoader.load(holder.ivCartImage, item.getImageUrl());
 
         // --- Increase Quantity ---
         holder.btnCartPlus.setOnClickListener(v -> {
@@ -73,13 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
 
         // --- Remove Item ---
-        holder.tvRemove.setOnClickListener(v -> {
-            databaseHelper.deleteItem(item.getId());
-            cartList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, cartList.size());
-            listener.onCartUpdated(); // Update Total Price
-        });
+        holder.tvRemove.setOnClickListener(v -> removeAt(holder.getBindingAdapterPosition()));
     }
 
     @Override
