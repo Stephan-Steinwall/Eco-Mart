@@ -8,7 +8,10 @@ const api = axios.create({
 // Add an interceptor to inject the token into requests
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('JWT_TOKEN');
-    if (token) {
+    // Login/register must never carry a stored token: an old expired one would otherwise be sent along
+    // and could stop the admin from signing in again.
+    const isAuthRequest = (config.url || '').replace(/^\//, '').startsWith('auth/');
+    if (token && !isAuthRequest) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
