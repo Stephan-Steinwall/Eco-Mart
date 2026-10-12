@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Analytics from './pages/Analytics';
 import Users from './pages/Users';
+import Offers from './pages/Offers';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/users" element={<Users />} /> {/* Add this line */}
+        <Route path="/offers" element={<Offers />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

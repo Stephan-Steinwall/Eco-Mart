@@ -17,3 +17,10 @@ spring.datasource.password=<YOUR-DB-PASSWORD>
 # spring.datasource.url=jdbc:postgresql://<POOLER-HOST-FROM-DASHBOARD>:5432/postgres?sslmode=require
 # spring.datasource.username=postgres.<PROJECT-REF>
 # spring.datasource.password=<YOUR-DB-PASSWORD>
+
+# --- Push notifications (Firebase Cloud Messaging) ---
+# Optional. Without this the backend runs normally but sends no pushes.
+# The database stays on Supabase; Firebase is only used to deliver pushes to Android.
+# Firebase console -> Project settings -> Service accounts -> "Generate new private key",
+# save the JSON next to the backend (gitignored) and point to it here:
+# ecomart.fcm.credentials-path=firebase-service-account.json

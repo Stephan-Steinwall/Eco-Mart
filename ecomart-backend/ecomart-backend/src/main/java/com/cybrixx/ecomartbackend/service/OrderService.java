@@ -11,6 +11,7 @@ import com.cybrixx.ecomartbackend.repository.OrderRepository;
 import com.cybrixx.ecomartbackend.repository.ProductRepository;
 import com.cybrixx.ecomartbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     // FIX 1: Added the method body to actually fetch the orders
     public List<Order> getOrdersByUserEmail(String email) {
@@ -89,8 +91,18 @@ public class OrderService {
         try {
             // Convert the string to the Enum (throws error if invalid string is sent)
             OrderStatus statusEnum = OrderStatus.valueOf(newStatus.toUpperCase());
+            boolean changed = order.getStatus() != statusEnum;
             order.setStatus(statusEnum);
-            return orderRepository.save(order);
+            Order saved = orderRepository.save(order);
+
+            // Re-selecting the same status in the admin dropdown must not re-notify the customer.
+            if (changed) {
+                User customer = saved.getUser();
+                eventPublisher.publishEvent(new OrderStatusChangedEvent(
+                        saved.getId(), customer.getId(), customer.getFcmToken(),
+                        statusEnum, saved.getLatitude(), saved.getLongitude()));
+            }
+            return saved;
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Invalid order status: " + newStatus);
         }

@@ -38,6 +38,7 @@ export default function AdminNavbar({ title, icon }) {
             <div className="flex items-center gap-1.5">
                 <NavButton path="/dashboard" label="Orders" />
                 <NavButton path="/products" label="Products" />
+                <NavButton path="/offers" label="Offers" />
                 <NavButton path="/users" label="Users" />
                 <NavButton path="/analytics" label="Analytics" />
 

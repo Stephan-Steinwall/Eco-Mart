@@ -1,5 +1,6 @@
 package com.cybrixx.ecomartbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.cybrixx.ecomartbackend.entity.enums.Role;
 import lombok.*;
@@ -30,4 +31,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    /** Firebase Cloud Messaging device token of the user's most recent login (null when logged out). */
+    @JsonIgnore
+    @Column(length = 512)
+    private String fcmToken;
 }

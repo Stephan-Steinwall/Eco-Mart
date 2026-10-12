@@ -34,3 +34,6 @@ build/
 
 ### Secrets ###
 src/main/resources/application-local.properties
+# Firebase service-account keys (push notifications) - never commit these
+firebase-service-account*.json
+*-firebase-adminsdk-*.json
