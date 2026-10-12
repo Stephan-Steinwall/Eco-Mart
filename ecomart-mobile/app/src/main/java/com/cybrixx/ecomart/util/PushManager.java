@@ -8,6 +8,8 @@ import com.cybrixx.ecomart.network.RetrofitClient;
 import com.cybrixx.ecomart.network.UserApi;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,6 +21,9 @@ public final class PushManager {
     private static final String TAG = "PushManager";
     private static final String OFFERS_TOPIC = "offers";
 
+    // True once this process has successfully registered the device with the backend.
+    private static final AtomicBoolean registeredThisRun = new AtomicBoolean(false);
+
     private PushManager() {}
 
     /**
@@ -26,6 +31,10 @@ public final class PushManager {
      * device belongs to this account, so order updates can be pushed to it.
      */
     public static void register(Context context) {
+        // Home is rebuilt every time its tab is tapped; there is no need to redo the Firebase round trip,
+        // the server check and the database write each time. Once registered, a new token (onNewToken)
+        // or the next app run is enough.
+        if (registeredThisRun.get()) return;
         Context app = context.getApplicationContext();
         try {
             FirebaseMessaging messaging = FirebaseMessaging.getInstance();
@@ -57,11 +66,13 @@ public final class PushManager {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.code() == 410) {
+                        if (response.isSuccessful()) {
+                            registeredThisRun.set(true);
+                        } else if (response.code() == 410) {
                             // Firebase no longer knows this token (e.g. an emulator snapshot or restored
                             // backup kept an old one), so no push could ever reach it. Get a new one.
                             replaceDeadToken(app);
-                        } else if (!response.isSuccessful()) {
+                        } else {
                             Log.w(TAG, "Failed to register device: HTTP " + response.code());
                         }
                     }
@@ -75,8 +86,7 @@ public final class PushManager {
     }
 
     // Once per app run is plenty; it also guarantees a misbehaving server can never make this loop.
-    private static final java.util.concurrent.atomic.AtomicBoolean replacedThisRun =
-            new java.util.concurrent.atomic.AtomicBoolean(false);
+    private static final AtomicBoolean replacedThisRun = new AtomicBoolean(false);
 
     private static void replaceDeadToken(Context app) {
         if (!replacedThisRun.compareAndSet(false, true)) return;
@@ -105,6 +115,7 @@ public final class PushManager {
      * order updates and offers.
      */
     public static void unregister(Context context) {
+        registeredThisRun.set(false); // the next login (possibly another account) must register again
         Context app = context.getApplicationContext();
         String jwt = new SharedPrefsManager(app).getToken();
         try {
