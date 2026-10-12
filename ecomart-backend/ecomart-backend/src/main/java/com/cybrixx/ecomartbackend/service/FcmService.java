@@ -80,6 +80,30 @@ public class FcmService {
         return send(Message.builder().setToken(token), data, timeToLive);
     }
 
+    /**
+     * Asks Firebase (a dry run: nothing is delivered) whether a device token is dead, so a stale token can be
+     * refused when the app registers it instead of silently swallowing every later push. Only a definite
+     * "no such device" answer counts; if Firebase is off or unreachable the token is given the benefit of the doubt.
+     */
+    public boolean isTokenKnownInvalid(String token) {
+        if (!enabled || token == null || token.isBlank()) {
+            return false;
+        }
+        try {
+            FirebaseMessaging.getInstance().send(
+                    Message.builder().setToken(token).putData("type", "PING").build(), true);
+            return false;
+        } catch (FirebaseMessagingException e) {
+            // The payload is fixed and valid, so INVALID_ARGUMENT here can only mean a malformed token.
+            MessagingErrorCode code = e.getMessagingErrorCode();
+            boolean dead = code == MessagingErrorCode.UNREGISTERED || code == MessagingErrorCode.INVALID_ARGUMENT;
+            if (!dead) {
+                log.warn("Could not verify the device token with Firebase ({}): {}", code, e.getMessage());
+            }
+            return dead;
+        }
+    }
+
     /** Push to every device subscribed to a topic (e.g. a new offer for all customers). */
     public PushResult sendToTopic(String topic, Map<String, String> data, Duration timeToLive) {
         return send(Message.builder().setTopic(topic), data, timeToLive);

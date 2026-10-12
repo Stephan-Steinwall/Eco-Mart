@@ -4,7 +4,9 @@ import com.cybrixx.ecomartbackend.dto.FcmTokenDTO;
 import com.cybrixx.ecomartbackend.dto.UserProfileDTO;
 import com.cybrixx.ecomartbackend.entity.User;
 import com.cybrixx.ecomartbackend.repository.UserRepository;
+import com.cybrixx.ecomartbackend.service.FcmService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final FcmService fcmService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileDTO> getProfile(Principal principal) {
@@ -46,6 +49,12 @@ public class UserController {
     public ResponseEntity<?> registerFcmToken(Principal principal, @RequestBody FcmTokenDTO dto) {
         if (dto.getToken() == null || dto.getToken().isBlank()) {
             return ResponseEntity.badRequest().body("Token is required");
+        }
+        // A device can hold on to a token Firebase has long forgotten (restored snapshot, backup restore, old
+        // install). Storing it would make every push to this customer vanish, so refuse it: 410 tells the app
+        // to discard the token and ask Firebase for a fresh one.
+        if (fcmService.isTokenKnownInvalid(dto.getToken())) {
+            return ResponseEntity.status(HttpStatus.GONE).body("Token is not registered with Firebase; request a new one");
         }
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
         userRepository.clearTokenFromOtherUsers(dto.getToken(), user.getId());

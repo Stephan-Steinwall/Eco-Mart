@@ -54,7 +54,50 @@ public final class PushManager {
 
         RetrofitClient.getInstance(app).create(UserApi.class)
                 .registerFcmToken(new FcmTokenDTO(fcmToken))
-                .enqueue(new LoggingCallback("register device"));
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.code() == 410) {
+                            // Firebase no longer knows this token (e.g. an emulator snapshot or restored
+                            // backup kept an old one), so no push could ever reach it. Get a new one.
+                            replaceDeadToken(app);
+                        } else if (!response.isSuccessful()) {
+                            Log.w(TAG, "Failed to register device: HTTP " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        // Best-effort: the token is re-sent on the next app start.
+                        Log.w(TAG, "Failed to register device", t);
+                    }
+                });
+    }
+
+    // Once per app run is plenty; it also guarantees a misbehaving server can never make this loop.
+    private static final java.util.concurrent.atomic.AtomicBoolean replacedThisRun =
+            new java.util.concurrent.atomic.AtomicBoolean(false);
+
+    private static void replaceDeadToken(Context app) {
+        if (!replacedThisRun.compareAndSet(false, true)) return;
+        Log.w(TAG, "Server says the cached FCM token is dead; asking Firebase for a new one");
+        try {
+            FirebaseMessaging messaging = FirebaseMessaging.getInstance();
+            messaging.deleteToken().addOnCompleteListener(deleted ->
+                    messaging.getToken().addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            String fresh = task.getResult();
+                            Log.d(TAG, "New FCM token obtained (ends ..." + fresh.substring(Math.max(0, fresh.length() - 6)) + ")");
+                            // Topic subscriptions belong to the old token, so subscribe again.
+                            messaging.subscribeToTopic(OFFERS_TOPIC);
+                            sendTokenToServer(app, fresh);
+                        } else {
+                            Log.w(TAG, "Could not get a replacement FCM token", task.getException());
+                        }
+                    }));
+        } catch (IllegalStateException e) {
+            Log.w(TAG, "Firebase is not available", e);
+        }
     }
 
     /**
